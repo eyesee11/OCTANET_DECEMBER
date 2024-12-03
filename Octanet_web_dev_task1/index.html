@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEEKYमिलन - Dating Site</title>
+  <!-- <script src="https://kit.fontawesome.com/a7a8925472.js" crossorigin="anonymous"></script> -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Georgia&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GEEKYमिलन Logo" style="height: 65px;">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="ABOUTUS.html">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="signup.html">Sign in</a></li>
+        <li><a href="#" id="premium-btn">Premium</a></li>
+        <li><a href="profile.html" class="profile-icon">
+          <i class="fas fa-user"></i>
+        </a>
+        </li>
+      </ul>
+    </div>
+    
+  </nav>
+  
+  <div class="header">
+    <div class="banner">
+      <h1>GEEKYमिलन</h1>
+      <p>Bookmark The Hearts</p>
+      <button type="submit" id="start" onclick="document.getElementById('fillout').scrollIntoView({behavior: 'smooth'});">Get Started <i class="fa-solid fa-arrow-down"></i></button>
+    </div>
+  </div>
+
+  <div class="model">
+    <span id="heading">Match, Meet, Make Memories</span>
+    <p>Find your perfect half with Geekyमिलन</p>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.23/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/7tm6noF297tOmnus/scene.splinecode"></spline-viewer>
+  </div>
+
+  <div class="heading-features" id="services">
+    <span id="down">Our Services</span>
+    <p>Discover the features that make Geekyमिलन the ultimate platform for college dating</p>
+  </div>
+
+
+
+
+  <!-- Chatbot integration -->
+  <div id="chat-icon" onclick="toggleChat()">
+    <i class="fas fa-comments" style="color:#1a0033; font-size :24px;"></i>
+</div>
+
+<div id="chatbot-container" class="chatbot-closed">
+    <div id="chatbot-header">
+       <span>Chat with Us!</span>
+       <button onclick="toggleChat()" style="background:none;border:none;color:white;">&times;</button>
+   </div>
+   <div id="chatbot-messages"></div>
+   <div id="chatbot-input">
+       <input type="text" id="user-input" placeholder="Type your message...">
+       <button id="send-button" onclick="sendMessage()">Send</button>
+   </div>
+</div>
+
+
+
+
+ <!-- Floating Action Buttons -->
+ <div class="floating-buttons">
+  <button class="fab purple" onclick="togglePlaylist()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18a6 6 0 0 0 0-12"/><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="2"/><path d="M16 6a4 4 0 0 1-8 2"/></svg>
+  </button>
+  <button class="fab pink" onclick="toggleBudget()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5c0-5.5 6.5-5.5 6.5 0v.5H9.5v-.5z"/><path d="M9.5 14h7"/><path d="M9.5 16.5h7"/></svg>
+  </button>
+  <button class="fab blue" onclick="toggleLocation()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+  </button>
+</div>
+
+<!-- Playlist Modal -->
+<div id="playlistModal" class="modal">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h2>Our Playlist</h2>
+          <button onclick="togglePlaylist()" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group">
+              <input type="text" id="songTitle" placeholder="Song title">
+              <input type="url" id="songLink" placeholder="Song link">
+              <input type="url" id="songImage" placeholder="Image URL">
+              <button onclick="addSong()" class="add-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  Add Song
+              </button>
+          </div>
+          <div id="songsList" class="songs-list"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Budget Modal -->
+<div id="budgetModal" class="modal">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h2>Bill Splitter</h2>
+          <button onclick="toggleBudget()" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group">
+              <label>Total Bill Amount</label>
+              <input type="number" id="billTotal" onchange="updateSplit()">
+              <label>Split Ratio</label>
+              <input type="range" id="splitRatio" min="0" max="100" value="50" onchange="updateSplit()">
+          </div>
+          <div class="split-display">
+              <div class="split-card">
+                  <p>Partner 1</p>
+                  <p id="partner1Amount" class="amount">$0.00</p>
+                  <p id="partner1Percentage">50%</p>
+              </div>
+              <div class="split-card">
+                  <p>Partner 2</p>
+                  <p id="partner2Amount" class="amount">$0.00</p>
+                  <p id="partner2Percentage">50%</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Location Modal -->
+<div id="locationModal" class="modal">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h2>Share Location</h2>
+          <button onclick="toggleLocation()" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+          <p class="share-text">Share your current location via:</p>
+          <div class="share-buttons">
+              <button onclick="shareLocation('whatsapp')" class="share-btn whatsapp">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                  WhatsApp
+              </button>
+              <button onclick="shareLocation('telegram')" class="share-btn telegram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                  Telegram
+              </button>
+              <button onclick="shareLocation('instagram')" class="share-btn instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                  Instagram
+              </button>
+          </div>
+          <p class="safety-note">Your location will only be shared when you click on one of the above options.</p>
+      </div>
+  </div>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+  <div class="services">
+    <div class="features">
+      <span id="head">AI-Based Match Suggestions</span>
+      <span>Showcase how the platform uses advanced algorithms to match users based on personality traits, interests, and behaviors, leading to highly compatible connections.</span>
+    </div>
+    <div class="features">
+      <span id="head">Verified Profiles</span>
+      <span>Highlight that users are verified through identity checks (e.g., social media, government ID, or video verification) to ensure safety and authenticity on the platform.</span>
+    </div>
+    <div class="features">
+      <span id="head">Advanced Search Filters</span>
+      <span>Promote the ability to search for matches using detailed filters like location, interests, relationship goals, lifestyle preferences, and more, giving users control over their search.</span>
+    </div>
+    <div class="features">
+      <span id="head">Privacy and Safety Features</span>
+      <span>Emphasize privacy options like anonymous browsing, photo blurring, and the ability to control who sees their profile. Also, include safety tools like in-app reporting and an emergency button.</span>
+    </div>
+    <div class="features">
+      <span id="head">Real-Time Messaging and Video Chat</span>
+      <span>Display features like secure messaging and video chat options that allow users to communicate seamlessly and get to know each other before meeting in person.</span>
+    </div>
+    <div class="features">
+      <span id="head">Community and Interest-Based Groups</span>
+      <span>Highlight group-based features or events where users can meet others with similar interests, whether through forums, virtual events, or niche communities (e.g., for fitness enthusiasts or pet lovers).</span>
+    </div>
+  </div>
+
+  <div class="search-box" id="fillout">
+    <div class="match">
+      <span id="tagline">Discover The Love That Lasts Forever</span>
+      <span>Love is out there let's help you find it</span><br>
+      <input type="text" placeholder="Enter Name">
+      <input type="text" placeholder="Enter Age">
+      <input type="text" placeholder="Enter City">
+      <input type="date" id="date-picker" class="search-input">
+      <button type="submit" onclick="window.location.href='fun.html'">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+      <button type="submit" onclick="window.location.href='weather.html'">Check Weather <i class="fa-solid fa-eye"></i></button>
+    </div>
+  </div>
+
+  <div class="places">
+    <span id="bold">Meet Your Match</span>
+    <span>Find your perfect match and plan your first date at the best places</span>
+    <div class="area1" id="common1">
+      <button type="submit">Restaurants</button>
+    </div>
+    <div class="area2" id="common2"> 
+      <button type="submit">Cafes</button>
+    </div>
+    <div class="area3" id="common3">
+      <button type="submit">Malls</button>
+    </div> 
+    <div class="area4" id="common4">
+      <button type="submit">Bars & Bistro</button>
+    </div>
+    <div class="area5" id="common5">
+      <button type="submit">Clubbing</button>
+    </div>
+  </div>
+
+  <button id="scrollToTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <footer class="footer">
+    <p>&copy; 2024 GEEKYमिलन. All rights reserved.</p>
+    <div class="footer-container">
+      <div class="footer-content">
+        <h3>GEEKYमिलन</h3>
+        <p>Connecting hearts around the world. Follow us on social media:</p>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Premium Subscription Popup -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup-content">
+      <span class="close-popup" id="close-popup">&times;</span>
+      <div class="subscription-container">
+        <h1>Upgrade to Premium</h1>
+        <p>Get exclusive access to premium features and more perks!</p>
+        
+        <div class="plans">
+          <div class="plan">
+            <h2>Basic Plan</h2>
+            <p>$5/month</p>
+            <ul>
+              <li>Access to basic features</li>
+              <li>Email support</li>
+            </ul>
+            <button class="subscribe-btn" data-plan="Basic">Subscribe</button>
+          </div>
+          
+          <div class="plan">
+            <h2>Pro Plan</h2>
+            <p>$15/month</p>
+            <ul>
+              <li>All Basic features</li>
+              <li>Priority support</li>
+              <li>Access to premium content</li>
+            </ul>
+            <button class="subscribe-btn" data-plan="Pro">Subscribe</button>
+          </div>
+          
+          <div class="plan">
+            <h2>Ultimate Plan</h2>
+            <p>$25/month</p>
+            <ul>
+              <li>All Pro features</li>
+              <li>Dedicated support</li>
+              <li>Exclusive resources</li>
+            </ul>
+            <button class="subscribe-btn" data-plan="Ultimate">Subscribe</button>
+          </div>
+        </div>
+        
+        <p id="confirmation-message"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("start").onclick = function() {
+      document.getElementById("fillout").scrollIntoView({behavior: 'smooth'});
+    };
+
+    let mybutton = document.getElementById("scrollToTopBtn");
+    window.onscroll = function() {
+      scrollFunction();
+    };
+    function scrollFunction() {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+    mybutton.onclick = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    document.getElementById("common1").onclick = function() {
+      window.location.href = "https://maps.app.goo.gl/vZenBdC8qDHFMiGd9";
+    };
+    document.getElementById("common2").onclick = function() {
+      window.location.href = "https://maps.app.goo.gl/qmGkvv1GrCqWnMe8A";
+    };
+    document.getElementById("common3").onclick = function() {
+      window.location.href = "https://maps.app.goo.gl/kVJ5U1pp3FLL7ewG9";
+    };
+    document.getElementById("common4").onclick = function() {
+      window.location.href = "https://maps.app.goo.gl/LEkarDFkhfsygmwW9";
+    };
+    document.getElementById("common5").onclick = function() {
+      window.location.href = "https://maps.app.goo.gl/8xY2n9NxsHtN2NeV9";
+    };
+
+    //premium popup functionality
+    const premiumBtn = document.getElementById('premium-btn');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const closePopup = document.getElementById('close-popup');
+    const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+    const confirmationMessage = document.getElementById('confirmation-message');
+
+    premiumBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      popupOverlay.style.display = 'block';
+      document.body.style.overflow = 'hidden'; 
+    });
+
+    closePopup.addEventListener('click', () => {
+      popupOverlay.style.display = 'none';
+      document.body.style.overflow = 'auto'; 
+    });
+
+    subscribeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+      const plan = button.getAttribute('data-plan');
+      confirmationMessage.textContent = `Thank you for subscribing to the ${plan} Plan!`;
+      window.location.href = 'payment.html';
+      });
+    });
+
+    popupOverlay.addEventListener('click', (e) => {
+      if (e.target === popupOverlay) {
+        popupOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+      }
+    });
+    let lastScrollTop = 0; 
+  const navbar = document.getElementById('navbar');
+
+  window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > lastScrollTop) {
+      navbar.classList.add('hidden');
+    } else {
+      navbar.classList.remove('hidden');
+    }
+    
+    lastScrollTop = scrollTop;
+  });
+
+
+  //chatbot functionality
+  const url = 'https://cheapest-gpt-4-turbo-gpt-4-vision-chatgpt-openai-ai-api.p.rapidapi.com/v1/chat/completions';
+const options = {
+    method: 'POST',
+    headers: {
+        'x-rapidapi-key': 'c92a8ee81cmsh32da64c2c6b94f3p195216jsn262d567bed45', 
+        'x-rapidapi-host': 'cheapest-gpt-4-turbo-gpt-4-vision-chatgpt-openai-ai-api.p.rapidapi.com',
+        'Content-Type': 'application/json'
+    }
+};
+//to open the chatbot container
+function toggleChat() {
+  const chatbotContainer = document.getElementById('chatbot-container');
+  const isOpen = chatbotContainer.classList.contains('chatbot-open');
+
+  if (isOpen) {
+      chatbotContainer.classList.remove('chatbot-open');
+      chatbotContainer.classList.add('chatbot-closed');
+      chatbotContainer.style.opacity = '0';
+      chatbotContainer.style.visibility = 'hidden';
+  } else {
+      chatbotContainer.classList.remove('chatbot-closed');
+      chatbotContainer.classList.add('chatbot-open');
+      chatbotContainer.style.opacity = '1';
+      chatbotContainer.style.visibility = 'visible';
+  }
+}
+//making it responsive
+async function sendMessage() {
+    const userInput = document.getElementById('user-input');
+    const messageText = userInput.value.trim();
+
+    if (messageText) {
+        const messagesDiv = document.getElementById('chatbot-messages');
+        
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'message user-message';
+        userMessageDiv.textContent = messageText;
+        messagesDiv.appendChild(userMessageDiv);
+        
+        userInput.value = '';
+
+        const loadingMessageDiv = document.createElement('div');
+        loadingMessageDiv.className = 'message bot-message';
+        loadingMessageDiv.textContent = "Thinking...";
+        messagesDiv.appendChild(loadingMessageDiv);
+        
+        const body = JSON.stringify({
+            messages: [
+                {
+                    role: 'user',
+                    content: messageText
+                }
+            ],
+            model: 'gpt-4o', 
+            max_tokens: 100,
+            temperature: 0.9
+        });
+
+        try {
+            const response = await fetch(url, { ...options, body });
+            const data = await response.json();
+
+            messagesDiv.removeChild(loadingMessageDiv);
+
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'message bot-message';
+            botMessageDiv.textContent = data.choices[0].message.content; 
+            messagesDiv.appendChild(botMessageDiv);
+            
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        } catch (error) {
+            console.error(error);
+            alert('Error fetching response from API. Please try again.');
+            
+            messagesDiv.removeChild(loadingMessageDiv);
+        }
+    }
+}
+
+// State Management
+let songs = [];
+let bill = {
+    total: 0,
+    split1: 50,
+    split2: 50
+};
+
+// Modal Toggle Functions
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.toggle('active');
+}
+
+function togglePlaylist() {
+    toggleModal('playlistModal');
+}
+
+function toggleBudget() {
+    toggleModal('budgetModal');
+}
+
+function toggleLocation() {
+    toggleModal('locationModal');
+}
+
+// Playlist Functions
+function addSong() {
+    const title = document.getElementById('songTitle').value;
+    const link = document.getElementById('songLink').value;
+    const image = document.getElementById('songImage').value;
+
+    if (title && link) {
+        songs.push({ title, link, image });
+        updateSongsList();
+        clearSongInputs();
+    }
+}
+
+function clearSongInputs() {
+    document.getElementById('songTitle').value = '';
+    document.getElementById('songLink').value = '';
+    document.getElementById('songImage').value = '';
+}
+
+function updateSongsList() {
+    const songsList = document.getElementById('songsList');
+    songsList.innerHTML = songs.map((song, index) => `
+        <div class="song-item">
+            ${song.image ? `<img src="${song.image}" alt="${song.title}" class="song-image">` : ''}
+            <div class="song-info">
+                <h3 class="song-title">${song.title}</h3>
+                <a href="${song.link}" target="_blank" rel="noopener noreferrer" class="song-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    Listen
+                </a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Budget Functions
+function updateSplit() {
+    const total = parseFloat(document.getElementById('billTotal').value) || 0;
+    const ratio = parseInt(document.getElementById('splitRatio').value);
+    
+    bill = {
+        total,
+        split1: ratio,
+        split2: 100 - ratio
+    };
+
+    updateSplitDisplay();
+}
+
+function updateSplitDisplay() {
+    document.getElementById('partner1Amount').textContent = `$${((bill.split1 / 100) * bill.total).toFixed(2)}`;
+    document.getElementById('partner2Amount').textContent = `$${((bill.split2 / 100) * bill.total).toFixed(2)}`;
+    document.getElementById('partner1Percentage').textContent = `${bill.split1}%`;
+    document.getElementById('partner2Percentage').textContent = `${bill.split2}%`;
+}
+
+// Location Sharing Functions
+function shareLocation(platform) {
+    if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
+            const locationURL = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            
+            const shareLinks = {
+                whatsapp: `https://wa.me/?text=My%20location:%20${encodeURIComponent(locationURL)}`,
+                telegram: `https://t.me/share/url?url=${encodeURIComponent(locationURL)}`,
+                instagram: `https://www.instagram.com/direct/new/?url=${encodeURIComponent(locationURL)}`
+            };
+
+            window.open(shareLinks[platform], '_blank');
+        });
+    } else {
+        alert('Geolocation is not supported by your browser');
+    }
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    const modals = document.getElementsByClassName('modal');
+    for (const modal of modals) {
+        if (event.target === modal) {
+            modal.classList.remove('active');
+        }
+    }
+};
+
+
+  </script>
+</body>
+</html>
